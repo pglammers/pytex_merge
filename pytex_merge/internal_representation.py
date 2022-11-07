@@ -1,5 +1,6 @@
 from plum import dispatch
 from .version import VERSION
+from .string_operations import format_tex_filename
 
 
 def line_to_extracted_include_string(line, include_root_directory):
@@ -16,11 +17,14 @@ class File:
 
     @dispatch
     def __eq__(self, other) -> bool:
-        return (self.root_directory, self.filename, self.lines,) == (
-            other.root_directory,
-            other.filename,
-            other.lines,
-        )
+        try:
+            return (self.root_directory, self.filename, self.lines,) == (
+                other.root_directory,
+                other.filename,
+                other.lines,
+            )
+        except AttributeError:
+            return False
 
     @dispatch
     def __repr__(self) -> str:
@@ -59,7 +63,9 @@ class File:
 
     @dispatch
     def string_extracted_files_list(self, include_root_directory=False) -> list:
-        output_list = [(self.filename, self.string_extracted_file())]
+        output_list = [
+            (format_tex_filename(self.filename), self.string_extracted_file())
+        ]
         for line in self.lines:
             if type(line) is not str:
                 output_list += line.string_extracted_files_list(include_root_directory)

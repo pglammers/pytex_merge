@@ -1,5 +1,13 @@
 import os
 from pytex_merge.read_extracted import read_extracted_file
+from pytex_merge.internal_representation import File
+
+
+def test_File___eq__():
+    f = File("a", "b")
+    f.lines = []
+    assert f == f
+    assert f != 1
 
 
 def test_File_string_merged():

@@ -61,5 +61,4 @@ def process_all_input_tags(lines: list, root_directory: str) -> list:
 def read_merged_file(root_directory: str, filename: str) -> File:
     lines = read_file_lines(os.path.join(root_directory, format_tex_filename(filename)))
     f = File(root_directory, filename)
-    f.lines = process_all_input_tags(lines, root_directory)[0].lines
-    return f
+    return process_all_input_tags(lines, root_directory)[0]
