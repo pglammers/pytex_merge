@@ -127,3 +127,16 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# MacOS
+*.DS_Store
+
+# TeX files
+tests/tex/main.aux
+tests/tex/main.fdb_latexmk
+tests/tex/main.fls
+tests/tex/main.pdf
+tests/tex/main_collapsed.aux
+tests/tex/main_collapsed.fdb_latexmk
+tests/tex/main_collapsed.fls
+tests/tex/main_collapsed.pdf
