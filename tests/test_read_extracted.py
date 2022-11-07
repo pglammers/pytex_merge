@@ -1,5 +1,5 @@
 from pytex_merge.internal_representation import File
-from pytex_merge.read_extracted import read_extracted_file
+from pytex_merge import read_extracted_file
 
 
 def test_read_extracted_file():
@@ -10,12 +10,14 @@ def test_read_extracted_file():
         "\\section{Introduction}",
         "",
         "This section is just there for testing purposes.",
+        "",
     ]
     f_section_2 = File(root_directory, "sections/section_2.tex")
     f_section_2.lines = [
         "\\section{Background}",
         "",
         "This section is another section for testing purposes.",
+        "",
     ]
     f_main = File(root_directory, "main.tex")
     f_main.lines = [
@@ -24,5 +26,6 @@ def test_read_extracted_file():
         f_section_1,
         f_section_2,
         "\\end{document}",
+        "",
     ]
     assert f == f_main

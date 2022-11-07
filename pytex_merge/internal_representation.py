@@ -13,6 +13,9 @@ class File:
             other.lines,
         )
 
+    def __repr__(self):
+        return self.lines.__repr__()
+
     def string_merged(self) -> str:
         header_line = f'% <input src="{self.filename}" root="{self.root_directory}" version="{VERSION}">'
         footer_line = f'% </input src="{self.filename}" root="{self.root_directory}" version="{VERSION}">'

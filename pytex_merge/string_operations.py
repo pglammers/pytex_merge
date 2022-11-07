@@ -13,8 +13,10 @@ def string_find_wrapped_content(input_string, string_start, string_stop):
     string = "% \\input{test_string}"
     assert string_find_wrapped_content(string, "\\input{", "}") == "test_string"
     """
+    if type(input_string) is not str:
+        return None
     position_start = input_string.find(string_start)
-    position_stop = input_string.find(string_stop, position_start)
+    position_stop = input_string.find(string_stop, position_start + len(string_start))
     if position_start >= 0 and position_stop >= 0:
         return input_string[position_start + len(string_start) : position_stop]
     else:
@@ -24,4 +26,6 @@ def string_find_wrapped_content(input_string, string_start, string_stop):
 def read_file_lines(filename, processor=lambda line: line):
     with open(filename) as file:
         lines = [processor(line.rstrip()) for line in file]
+        if lines[-1] != "":
+            lines.append("")
     return lines
