@@ -2,6 +2,13 @@ from plum import dispatch
 from .version import VERSION
 
 
+def line_to_extracted_include_string(line, include_root_directory):
+    if type(line) is str:
+        return line
+    elif type(line) is File:
+        return "\\input{" + line.filename + "}"
+
+
 class File:
     def __init__(self, root_directory: str, filename: str):
         self.root_directory = root_directory
@@ -40,3 +47,20 @@ class File:
         if output_lines[-1] != "":
             output_lines.append("")
         return "\n".join(output_lines)
+
+    @dispatch
+    def string_extracted_file(self, include_root_directory=False) -> str:
+        return "\n".join(
+            [
+                line_to_extracted_include_string(line, include_root_directory)
+                for line in self.lines
+            ]
+        )
+
+    @dispatch
+    def string_extracted_files_list(self, include_root_directory=False) -> list:
+        output_list = [(self.filename, self.string_extracted_file())]
+        for line in self.lines:
+            if type(line) is not str:
+                output_list += line.string_extracted_files_list(include_root_directory)
+        return output_list
