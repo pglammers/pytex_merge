@@ -1,5 +1,6 @@
 import os
 from plum import dispatch
+from .version import VERSION
 from .internal_representation import File
 from .string_operations import (
     format_tex_filename,
@@ -41,6 +42,8 @@ def find_input_tag(lines: list, root_directory: str) -> tuple:
 def process_input_tag(lines: list, root_directory: str) -> list:
     k, l, tags = find_input_tag(lines, root_directory)
     src, root, version = tags
+    assert root == root_directory
+    assert version == VERSION
     new_file = File(root_directory, src)
     new_file.lines = process_all_input_tags(lines[k + 1 : l], root_directory)
     new_lines = lines[:k] + [new_file] + lines[l + 1 :]
