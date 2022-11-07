@@ -27,7 +27,7 @@ def in_line(line, string: str):
 
 
 @dispatch
-def find_input_tag(lines: list, root_directory):
+def find_input_tag(lines: list, root_directory: str) -> tuple:
     status = 0
     k, start = next(
         x for x in enumerate(lines) if string_find_wrapped_content(x[1], "<input", ">")
@@ -38,7 +38,7 @@ def find_input_tag(lines: list, root_directory):
     return k, l, extract_tags(start)
 
 
-def process_input_tag(lines, root_directory):
+def process_input_tag(lines: list, root_directory: str) -> list:
     k, l, tags = find_input_tag(lines, root_directory)
     src, root, version = tags
     new_file = File(root_directory, src)
@@ -47,7 +47,7 @@ def process_input_tag(lines, root_directory):
     return new_lines
 
 
-def process_all_input_tags(lines, root_directory):
+def process_all_input_tags(lines: list, root_directory: str) -> list:
     finished = False
     while not finished:
         try:
@@ -57,7 +57,8 @@ def process_all_input_tags(lines, root_directory):
     return lines
 
 
-def read_merged_file(root_directory, filename):
+@dispatch
+def read_merged_file(root_directory: str, filename: str) -> File:
     lines = read_file_lines(os.path.join(root_directory, format_tex_filename(filename)))
     f = File(root_directory, filename)
     f.lines = process_all_input_tags(lines, root_directory)[0].lines
